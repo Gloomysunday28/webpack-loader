@@ -1,4 +1,10 @@
 const path = require('path')
+const Purgecss = require("purgecss")
+const purgecss = new Purgecss({
+  content: ["./index.html"],
+  css: ["./src/*.css"]
+});
+purgecss.purge()
 
 module.exports = (env) => ({
   entry: './src/index.js',
@@ -20,6 +26,21 @@ module.exports = (env) => ({
       {
         test: /\.css$/,
         loader: `style-loader!css-loader!martin-loader?lala`,
+      },
+      {
+        test: /\.png$/,
+        use: [
+          'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              pngquant: {
+                quality: '65-90',
+                speed: 4
+              },
+            }
+          }
+        ]
       }
     ]
   }
